@@ -14,7 +14,7 @@ _log = logging.getLogger(__name__)
 CONN_TIMEOUT = 5  # TCP建连超时(s)
 READ_TIMEOUT = 20  # socket读超时(s)
 MAX_RETRIES = Retry(
-    total=3,
+    total=1,
     backoff_factor=0.5,
     status_forcelist=[500, 502, 503, 504])
 POOL_SIZE = 100  # pool_connections/pool_maxsize
@@ -300,7 +300,7 @@ if __name__ == "__main__":
     itcode = 'jigs2'
 
     try:
-        body_str = client.api72_getKbListByItCode('jigs2', 1,10, None )
+        body_str = client.api74_getUserListWithPermission(153247729047877)
         print(body_str)
     finally:
         client.close()

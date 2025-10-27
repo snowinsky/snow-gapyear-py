@@ -1,6 +1,7 @@
 # pip install aiohttp python-logging-ratelimit tenacity
 import asyncio
 import json
+import ssl
 import logging
 import os
 from typing import Dict, Any
@@ -15,7 +16,7 @@ _log = logging.getLogger(__name__)
 CONNECT_TIMEOUT = 5  # TCP 建立连接超时
 TOTAL_TIMEOUT = 10  # 完整请求超时
 POOL_LIMIT = 100  # 连接池最大数
-RETRY_TIMES = 3  # 重试次数
+RETRY_TIMES = 1  # 重试次数
 
 # TLS：如需自定义 CA / 跳过校验，可在此处构造 ssl_context
 SSL_CONTEXT = None  # aiohttp.TCPConnector(ssl=False) 即可跳过证书校验
@@ -40,7 +41,7 @@ class ApiHubTokenGetter:
     def _ensure_session(self) -> ClientSession:
         """惰性创建 Session"""
         if self._session is None or self._session.closed:
-            connector = aiohttp.TCPConnector(limit=POOL_LIMIT)
+            connector = aiohttp.TCPConnector(limit=POOL_LIMIT, verify_ssl=False)
             timeout = ClientTimeout(total=TOTAL_TIMEOUT,
                                     connect=CONNECT_TIMEOUT)
             self._session = ClientSession(connector=connector,
@@ -94,14 +95,6 @@ class ApiHubTokenGetter:
 
 async def async_get_api_hub_token_for_kmverse() -> Dict[str, Any]:
     logging.basicConfig(level=logging.INFO)
-    # async with ApiHubTokenGetter(
-    #     token_url='https://apihub-test.lenovo.com/token',
-    #     api_key='L6Mf5DHsdEl6tfKKG01PKUkYzHI2zaaH',
-    #     username='api_myai_app',
-    #     password='H9-3(x$R5a'
-    # ) as client:
-    #     token_info = await client.get_api_token_async()
-    #     return token_info['access_token']
     client = ApiHubTokenGetter(token_url='https://apihub-test.lenovo.com/token',
         api_key='L6Mf5DHsdEl6tfKKG01PKUkYzHI2zaaH',
          username='api_myai_app',
@@ -129,6 +122,6 @@ def sync_get_api_hub_token_for_myai() -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-   a = sync_get_api_hub_token_for_kmverse()
+   a = sync_get_api_hub_token_for_myai()
    print(a)
 
