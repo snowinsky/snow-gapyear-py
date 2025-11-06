@@ -79,6 +79,7 @@ class ApiHubTokenGetter:
                                       headers=headers) as resp:
             resp.raise_for_status()
             body_text = await resp.text()
+            _log.info("getAPIHToken body=%s", body_text)
             return json.loads(body_text)
 
             # -------------------- 同步包装 --------------------
@@ -94,6 +95,10 @@ class ApiHubTokenGetter:
 
 
 async def async_get_api_hub_token_for_kmverse() -> Dict[str, Any]:
+    """
+    接口洞察里的：apih_myai_token
+    :return:
+    """
     logging.basicConfig(level=logging.INFO)
     client = ApiHubTokenGetter(token_url='https://apihub-test.lenovo.com/token',
         api_key='L6Mf5DHsdEl6tfKKG01PKUkYzHI2zaaH',
@@ -104,11 +109,29 @@ async def async_get_api_hub_token_for_kmverse() -> Dict[str, Any]:
     return token_json
 
 async def async_get_api_hub_token_for_myai() -> Dict[str, Any]:
+    """
+    接口洞察里没有找到：
+    :return:
+    """
     logging.basicConfig(level=logging.INFO)
     client = ApiHubTokenGetter(token_url='https://apihub-test.lenovo.com/token',
                                api_key='AxZIlOysxxgDaGIt0wOIaOpFHH4EnO6C',
                                username='api_myhub_search',
                                password='j)t_nX002J')
+    token_json = await client.get_api_token_async()
+    await client.close()
+    return token_json
+
+async def async_get_api_hub_token_for_myhubbackend() -> Dict[str, Any]:
+    """
+    接口洞察里没有找到： APIH-TOKEN-TST-账号api_myai_app-KPI-tracking
+    :return:
+    """
+    logging.basicConfig(level=logging.INFO)
+    client = ApiHubTokenGetter(token_url='https://apihub-test.lenovo.com/token',
+                               api_key='B88WeYP6EPIl96JFMRsV762TKFrQ5C2C',
+                               username='api_myhub_backend',
+                               password='w=CklROu$c')
     token_json = await client.get_api_token_async()
     await client.close()
     return token_json
@@ -122,6 +145,6 @@ def sync_get_api_hub_token_for_myai() -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-   a = sync_get_api_hub_token_for_myai()
+   a = asyncio.run(async_get_api_hub_token_for_myhubbackend())
    print(a)
 

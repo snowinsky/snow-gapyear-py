@@ -197,7 +197,7 @@ class SyncKMVerseSdk:
             "query": query,
             "indexMode": "keyword",
             "similarityTopK": 3,
-            "score": 30
+            "score": 4
         }
         return self.send_request('/knowledge/retrieval', None, 'POST', body)
 
@@ -300,7 +300,7 @@ if __name__ == "__main__":
     itcode = 'jigs2'
 
     try:
-        body_str = client.api74_getUserListWithPermission(153247729047877)
+        body_str = client.api52_searchKbId(153247729047877, "今天心情")
         print(body_str)
     finally:
         client.close()

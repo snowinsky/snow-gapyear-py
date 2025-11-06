@@ -75,6 +75,8 @@ class MyAIGroupCollectionSdk:
             "Authorization": f"Bearer {self._fresh_access_token()}",
         }
 
+        print(headers)
+
         _log.info("%s  %s", method.upper(), url)
         _log.info("json_params %s", json_params)
         _log.info("json_body %s", json_body)
@@ -160,13 +162,23 @@ class MyAIGroupCollectionSdk:
         :return: str
         """
         return self.send_request('/qa/knowledgeBase/retrieval', method='POST', json_body={
-            {
-                "query": query,
-                "knowledgeBaseId": kbId,
-                "similarityTopK": 3,
-                "itCode": itCode,
-                "channel": channel
-            }
+            "query": query,
+            "knowledgeBaseId": kbId,
+            "similarityTopK": 3,
+            "score": 30,
+            "itCode": itCode,
+            "channel": channel
+        })
+
+    def call_qa_api_bindAndSearchKbId(self, sessionId, itCode, channel, query, kbId) -> str:
+        return self.send_request("/qa/knowledgeBase/bind/retrieval", method='POST', json_body={
+            "sessionId": sessionId,
+            "itCode": itCode,
+            "channel": channel,
+            "similarityTopK": 3,
+            "score": 30,
+            "kbId": kbId,
+            "query": query
         })
 
 
@@ -179,6 +191,7 @@ def apihub_call_myai_group_collection():
 
 if __name__ == '__main__':
     client = apihub_call_myai_group_collection()
-    res = client.call_qa_api_getKbListByItCode('jigs2', 'LeAI')
+    # res = client.call_qa_api_searchKbId('jigs2','LeAI', '今天天气', 153247729047877)
+    res = client.call_qa_api_bindAndSearchKbId("ssss", "jigs", "LeAI", "asdf", 153247729047877)
     print(res)
 
