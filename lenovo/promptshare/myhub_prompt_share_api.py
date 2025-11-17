@@ -19,7 +19,7 @@ class myhub_prompt_share_restapi(unittest.TestCase):
             'language': 'cn',
             'X-User-SiteId': '23',
             'Content-Type': 'application/json',
-            'Authorization': "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJsZW5vdm8iLCJzdWIiOiJqaWdzMiIsImlkIjo0MTYzNTMsInR5cGUiOiJzaXRlLXVzZXIiLCJleHAiOjE3NjI3NjI2OTIsImlhdCI6MTc2MjE1Nzg5Mn0.5aLivceqwdU2QWUz9AmndRWPqb77ZpcszpUu6Cje9ugpMpUYjStKnjWYpXUVW4DCZUuTkhKt-89KBbmqXkuoFA"
+            'Authorization': "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJsZW5vdm8iLCJzdWIiOiJqaWdzMiIsImlkIjo0MTYzNTMsInR5cGUiOiJzaXRlLXVzZXIiLCJleHAiOjE3NjMzNjg0NDAsImlhdCI6MTc2Mjc2MzY0MH0.sYrMkz0H4wnzaoIq-ilq1ctm3i91zIXw7_482Y-bUfXSj3lJUM7JDF5ZeiQuW4B71F68i5-J0e9aPtzOwnghHg"
         }
 
     def test_instruction_get(self):
@@ -79,6 +79,13 @@ class myhub_prompt_share_restapi(unittest.TestCase):
         })
         headers = self.base_header
         response = requests.request("DELETE", url, headers=headers, data=payload)
+        print(response.text)
+
+    def test_myai_survey_encryptitcode(self):
+        url = f"http://ecmp-site-bff.t-sy-in.earth.xcloud.lenovo.com/v2/cms/myai/survey/itcode/encrypt/{self.channel}"
+        payload = json.dumps({})
+        headers = self.base_header
+        response = requests.request("GET", url, headers=headers, data=payload)
         print(response.text)
 
 

@@ -1,0 +1,9 @@
+import json
+
+import requests
+
+headers = {}
+ret = requests.request("POST", "https://stscn.lenovo.com/adfs/ls/", headers=headers, data=json.dumps({
+    "SAMLRequest":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c2FtbDJwOkF1dGhuUmVxdWVzdCB4bWxuczpzYW1sMnA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgSUQ9Il84MDZmMTBjY2E5NTI4ZmNjMGQyMmE2NGI1MDgwYzg2YSIgSXNzdWVJbnN0YW50PSIyMDI1LTExLTA3VDA3OjQwOjMyLjk1MFoiIFByb3RvY29sQmluZGluZz0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmJpbmRpbmdzOkhUVFAtUE9TVCIgVmVyc2lvbj0iMi4wIj4KICAgIDxzYW1sMjpJc3N1ZXIgeG1sbnM6c2FtbDI9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iPk9uZVBvcnRhbC1VQVQ8L3NhbWwyOklzc3Vlcj4KPC9zYW1sMnA6QXV0aG5SZXF1ZXN0Pgo&#x3D;"
+}))
+print(ret.text)
